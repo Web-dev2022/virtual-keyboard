@@ -100,8 +100,12 @@ body {
   transition: 0.15s background-color linear;
 }
 
-.keyboard-key:hover, .keyboard-key.active {
+.keyboard-key:hover{
   background-color: rgb(20, 20, 20);
+}
+
+.keyboard-key:active, .keyboard-key.active {
+  background-color: rgb(5, 65, 5);
 }
 
 .keyboard-key--functional {
