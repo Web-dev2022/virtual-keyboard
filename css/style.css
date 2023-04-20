@@ -120,11 +120,11 @@ body {
   width: 106px;
 }
 
-.keyboard-key--arrow-left {
+.keyboard-key--left {
   transform: rotate(90deg);
 }
 
-.keyboard-key--arrow-right {
+.keyboard-key--right {
   transform: rotate(-90deg);
 }
 
@@ -135,7 +135,6 @@ body {
 /* FOOTER */
 
 .footer {
-  padding: 50px 0;
   text-align: center;
   font-weight: 300;
   line-height: 1.5;
