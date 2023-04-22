@@ -55,6 +55,7 @@ body {
 /* KEYBOARD-OUTPUT */
 
 .keyboard-output {
+  resize: none;
   display: block;
   width: 100%;
   margin-bottom: 20px;
@@ -104,7 +105,7 @@ body {
   background-color: rgb(20, 20, 20);
 }
 
-.keyboard-key:active, .keyboard-key.active {
+.keyboard-key.active {
   background-color: rgb(5, 65, 5);
 }
 
