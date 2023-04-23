@@ -86,11 +86,13 @@ class Keyboard {
 
   functionalKeys = ['ControlRight', 'ControlLeft', 'MetaLeft', 'ArrowRight', 'AltLeft', 'Space', 'ArrowLeft', 'AltRight', 'ArrowDown', 'ArrowUp', 'ShiftRight', 'ShiftLeft', 'CapsLock', 'Enter', 'Tab', 'Delete', 'Backspace'];
   notCapsLockEnglish = ['BracketLeft', 'BracketRight', 'Semicolon', 'Quote', 'Comma', 'Period'];
-  outputText = '';
   capsLockIsPressed = false;
   ctrlLeftIsPressed = false;
   altLeftIsPressed = false;
   lang = sessionStorage['lang'];
+  outputText = '';
+  textRightPart = '';
+  cursorPosition = 0;
 
   keyboardRender () {
     const body = document.getElementsByTagName('body');
@@ -189,6 +191,18 @@ class Keyboard {
         this.ctrlLeftIsPressed = true;
       } else if (key.id === 'AltLeft') {
         this.altLeftIsPressed = true;
+      } else if (key.id === 'Enter') {
+        this.changeOutput('\n');
+      } else if (key.id === 'Backspace' || key.id === 'Delete') {
+        const factorBackspaceOne = (this.ctrlLeftIsPressed === true || key.id === 'Delete') ? 1 : 0;
+        const factorBackspaceTwo = (this.ctrlLeftIsPressed === false && key.id !== 'Delete') ? -1 : 0;
+        this.changeOutput('', factorBackspaceOne, factorBackspaceTwo);
+      } else if (key.id === 'ArrowLeft') {
+        if (this.output.selectionStart !== 0) {
+          this.output.selectionEnd  = this.output.selectionStart = this.output.selectionStart  - 1;
+        }
+      } else if (key.id === 'ArrowRight') {
+        this.output.selectionEnd  = this.output.selectionStart = this.output.selectionStart  + 1;
       } 
     }
     key.classList.add('active');
@@ -226,9 +240,16 @@ class Keyboard {
     };
   }
   
-  changeOutput (keyValue) {
-    this.outputText += keyValue;
+  changeOutput (newFragment, factorBackspaceOne = 0, factorBackspaceTwo = 0) {
+    this.textRightPart = this.outputText.slice(this.output.selectionStart + factorBackspaceOne, this.outputText.length);
+    this.outputText = this.outputText.slice(0, this.output.selectionStart + factorBackspaceTwo) + newFragment;
+    this.cursorPosition = this.outputText.length;
+    this.outputText += this.textRightPart;
+
     this.output.innerHTML = this.outputText;
+
+    this.output.selectionStart = this.cursorPosition;
+    this.output.selectionEnd = this.cursorPosition;
   }
 }
 
@@ -258,7 +279,6 @@ document.addEventListener("keydown", function (event) {
     }
   }
   keyboard.keyDown(currentKey);
-
 });
 
 document.addEventListener("keyup", function (event) {
