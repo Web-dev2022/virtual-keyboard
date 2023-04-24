@@ -85,6 +85,7 @@ class Keyboard {
   ]
 
   functionalKeys = ['ControlRight', 'ControlLeft', 'MetaLeft', 'ArrowRight', 'AltLeft', 'Space', 'ArrowLeft', 'AltRight', 'ArrowDown', 'ArrowUp', 'ShiftRight', 'ShiftLeft', 'CapsLock', 'Enter', 'Tab', 'Delete', 'Backspace']
+  notFunctionalsKeys = ['Backquote', 'Digit1', 'Digit2', 'Digit3', 'Digit4', 'Digit5', 'Digit6', 'Digit7', 'Digit8', 'Digit9', 'Digit0', 'Minus', 'Equal', 'KeyQ', 'KeyW', 'KeyE', 'KeyR', 'KeyT', 'KeyY', 'KeyU', 'KeyI', 'KeyO', 'KeyP', 'BracketLeft', 'BracketRight', 'Backslash', 'KeyA', 'KeyS', 'KeyD', 'KeyF', 'KeyG', 'KeyH', 'KeyJ', 'KeyK', 'KeyL', 'Semicolon', 'Quote', 'KeyZ', 'KeyX', 'KeyC', 'KeyV', 'KeyB', 'KeyN', 'KeyM', 'Comma', 'Period', 'Slash', '', '', '', '', '', '']
   notCapsLockEnglish = ['BracketLeft', 'BracketRight', 'Semicolon', 'Quote', 'Comma', 'Period']
   capsLockIsPressed = false
   ctrlLeftIsPressed = false
@@ -163,6 +164,10 @@ class Keyboard {
 
   isFunctionalKey (keyCode) {
     return this.functionalKeys.includes(keyCode)
+  }
+
+  isKorrectKey (keyCode) {
+    return this.functionalKeys.includes(keyCode) || this.notFunctionalsKeys.includes(keyCode)
   }
 
   keyDown (key) {
@@ -270,6 +275,9 @@ for (let i = 0; i < keyboard.allKeys.length; i++) {
 
 document.addEventListener('keydown', function (event) {
   event.preventDefault()
+  if (!keyboard.isKorrectKey(event.code)) {
+    return
+  }
   const currentKey = document.getElementById(event.code)
   if ((event.code === 'AltLeft' && keyboard.ctrlLeftIsPressed === true) || (event.code === 'ControlLeft' && keyboard.altLeftIsPressed === true)) {
     sessionStorage.lang = (keyboard.lang === 'en') ? 'ru' : 'en'
@@ -285,6 +293,9 @@ document.addEventListener('keydown', function (event) {
 
 document.addEventListener('keyup', function (event) {
   event.preventDefault()
+  if (!keyboard.isKorrectKey(event.code)) {
+    return
+  }
   const currentKey = document.getElementById(event.code)
   keyboard.keyUp(currentKey)
 })
