@@ -204,7 +204,9 @@ class Keyboard {
       } else if (key.id === 'ArrowRight') {
         this.output.selectionEnd = this.output.selectionStart = this.output.selectionStart + 1
       } else if (key.id === 'ArrowDown') {
+        this.changeOutput('⬇')
       } else if (key.id === 'ArrowUp') {
+        this.changeOutput('⬆')
       }
     }
     key.classList.add('active')
@@ -268,7 +270,7 @@ for (let i = 0; i < keyboard.allKeys.length; i++) {
 
 document.addEventListener('keydown', function (event) {
   event.preventDefault()
-  const currentKey = document.getElementById(event.code);
+  const currentKey = document.getElementById(event.code)
   if ((event.code === 'AltLeft' && keyboard.ctrlLeftIsPressed === true) || (event.code === 'ControlLeft' && keyboard.altLeftIsPressed === true)) {
     sessionStorage.lang = (keyboard.lang === 'en') ? 'ru' : 'en'
     keyboard.lang = sessionStorage.lang
